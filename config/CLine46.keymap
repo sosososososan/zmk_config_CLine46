@@ -2,6 +2,7 @@
 #include <dt-bindings/zmk/input_transform.h>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <behaviors.dtsi>
+#include <behaviors/unicode.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
@@ -32,6 +33,48 @@
             #binding-cells = <1>;
             bindings = <&to 0 &macro_param_1to1 &kp MACRO_PLACEHOLDER>;
             label = "TO_LAYER_0";
+        };
+
+        unicode_left: unicode_left {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&uc 0x2190 0>;
+            label = "UNICODE_LEFT";
+        };
+
+        unicode_up: unicode_up {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&uc 0x2191 0>;
+            label = "UNICODE_UP";
+        };
+
+        unicode_right: unicode_right {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&uc 0x2192 0>;
+            label = "UNICODE_RIGHT";
+        };
+
+        unicode_down: unicode_down {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&uc 0x2193 0>;
+            label = "UNICODE_DOWN";
+        };
+
+        profile_windows: profile_windows {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&uc UC_SET_WIN_COMPOSE &bt BT_SEL 0>;
+            label = "PROFILE_WINDOWS";
+        };
+
+        profile_macos: profile_macos {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&uc UC_SET_MACOS &bt BT_SEL 2>;
+            label = "PROFILE_MACOS";
         };
     };
 
