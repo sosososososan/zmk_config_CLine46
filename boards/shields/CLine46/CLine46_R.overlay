@@ -80,6 +80,6 @@
             <&zip_xy_to_scroll_mapper>,                         //スクロールモードに変更
             // <&zip_scroll_transform INPUT_TRANSFORM_X_INVERT>, //スクロールのX軸反転
             <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>,   //スクロールのY軸反転
-            <&zip_scroll_scaler 1 32>;                          //スクロール量を1/32倍
+            <&zip_scroll_scaler 1 24>;                          //スクロール量を1/24倍
     };
 };
