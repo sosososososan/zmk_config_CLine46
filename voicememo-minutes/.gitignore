@@ -1,0 +1,9 @@
+# 秘密情報を含む実設定(example から各自コピーして作る)
+config/config.env
+
+# ローカル実行環境・作業ファイル
+.venv/
+work/
+logs/
+__pycache__/
+*.pyc
