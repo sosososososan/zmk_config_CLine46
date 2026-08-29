@@ -29,6 +29,24 @@ if ! mkdir "$LOCK" 2>/dev/null; then
 fi
 trap 'rmdir "$LOCK" 2>/dev/null' EXIT
 
+# リポジトリを自動更新(議事録テンプレートの変更を Mac を触らずに反映するため)。
+# ローカルに未コミットの変更がある場合は壊さないようにスキップする。
+if [ "${AUTO_UPDATE:-1}" = "1" ] && command -v git >/dev/null 2>&1; then
+  if git -C "$ROOT_DIR" diff --quiet 2>/dev/null \
+      && git -C "$ROOT_DIR" diff --cached --quiet 2>/dev/null; then
+    BRANCH="$(git -C "$ROOT_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null || echo '')"
+    if [ -n "$BRANCH" ] && [ "$BRANCH" != "HEAD" ]; then
+      if git -C "$ROOT_DIR" pull --ff-only origin "$BRANCH" >/dev/null 2>&1; then
+        echo "リポジトリ自動更新: OK($BRANCH)"
+      else
+        echo "リポジトリ自動更新に失敗(オフライン?)— 手元のテンプレートで続行"
+      fi
+    fi
+  else
+    echo "ローカル変更があるため自動更新をスキップ"
+  fi
+fi
+
 mkdir -p "$INBOX_DIR"
 
 # iCloud 上のプレースホルダ(未ダウンロードのファイル)を実体化する

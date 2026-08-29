@@ -49,8 +49,22 @@ CLAUDE_ARGS=(-p --output-format text)
 if [ -n "${CLAUDE_MODEL:-}" ]; then
   CLAUDE_ARGS+=(--model "$CLAUDE_MODEL")
 fi
+
+# 音声と同名の .txt がインボックスにあれば「この会議限定の追加指示」として使う
+# (例: 会議.m4a と 会議.txt を一緒に置く)
+PROMPT="$(cat "$ROOT_DIR/templates/minutes_prompt.md")"
+INSTR_FILE="$(dirname "$IN")/${BASE}.txt"
+if [ -f "$INSTR_FILE" ]; then
+  echo "=== [$JOB] この会議専用の追加指示を検出: $(basename "$INSTR_FILE")"
+  PROMPT="$PROMPT
+
+# この会議に限った追加指示(上記フォーマットより優先して従うこと)
+
+$(cat "$INSTR_FILE")"
+fi
+
 echo "=== [$JOB] Claude で議事録を生成中…"
-"$CLAUDE_BIN" "${CLAUDE_ARGS[@]}" "$(cat "$ROOT_DIR/templates/minutes_prompt.md")" \
+"$CLAUDE_BIN" "${CLAUDE_ARGS[@]}" "$PROMPT" \
   < "$WORK/transcript.txt" > "$WORK/minutes.md"
 
 if [ ! -s "$WORK/minutes.md" ]; then
@@ -87,8 +101,12 @@ if [ "$SHOULD_MAIL" = "yes" ]; then
     --attach "$WORK/$DOCX"
 fi
 
-# 7) 元ファイルを退避し、作業ディレクトリを削除
+# 7) 元ファイル(と追加指示)を退避し、作業ディレクトリを削除
 mv "$IN" "$ARCHIVE_DIR/${TS}_$(basename "$IN")"
+if [ -f "$INSTR_FILE" ]; then
+  cp "$INSTR_FILE" "$OUT/追加指示_${SAFE}.txt"
+  mv "$INSTR_FILE" "$ARCHIVE_DIR/${TS}_${BASE}.txt"
+fi
 rm -rf "$WORK"
 
 echo "=== [$JOB] 完了 → $OUT"
