@@ -61,6 +61,16 @@
     };
 };
 
+// オートマウスレイヤー（AML）の初期値。本体に保存された値（DYA Studio 等で変えたもの）があればそちらが優先される。
+// settings_reset 後もこの値に戻るよう、2026-10-12 に本体の値（レイヤー4・100ms・3000ms）をそのまま書いた。
+// 3000ms は DYA Studio のスライダー上限（2000ms）を超えるので、DYA で保存すると下がる点に注意。
+&mouse_runtime_input_processor {
+    temp-layer-enabled;
+    temp-layer = <4>;
+    temp-layer-activation-delay-ms = <100>;
+    temp-layer-deactivation-delay-ms = <3000>;
+};
+
 // Overrides for the input listener node
 &trackball_listener {
     status = "okay";
