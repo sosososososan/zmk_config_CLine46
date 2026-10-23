@@ -100,9 +100,9 @@
 
         MOUSE {
             bindings = <
-&trans &kp F7 &kp F8 &kp F9 &kp F10 &trans    &profile_windows &bt BT_CLR   &trans &trans  &trans  &kp DEL
-&trans &kp F4 &kp F5 &kp F6 &kp F11 &trans    &bt BT_SEL 1     &bt BT_SEL 3 &trans &trans  &kp F13 &trans
-&trans &kp F1 &kp F2 &kp F3 &kp F12 &trans    &profile_macos   &bt BT_SEL 4 &trans &kp F14 &kp F15 &kp F16
+&trans &kp F7 &kp F8 &kp F9 &kp F10 &trans    &profile_windows &trans &trans &trans  &trans  &kp DEL
+&trans &kp F4 &kp F5 &kp F6 &kp F11 &trans    &bt BT_SEL 1     &trans &trans &trans  &kp F13 &trans
+&trans &kp F1 &kp F2 &kp F3 &kp F12 &trans    &profile_macos   &trans &trans &kp F14 &kp F15 &kp F16
   &trans  &trans  &trans  &trans  &trans  &trans    &studio_unlock  &trans  &kp HOME  &kp END
             >;
         };
