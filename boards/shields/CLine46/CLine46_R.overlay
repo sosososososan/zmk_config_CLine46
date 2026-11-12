@@ -81,6 +81,18 @@
         //<&zip_temp_layer 2 1000>;                            //オートマウスレイヤーの選択;
 
 
+    // Windows モード中のスクロール（レイヤー7＝スクロールキー＋Windows モード）。
+    // Mac 用（下の scroller）と比べて上下・左右とも逆。上にある設定が先に使われるので、必ず scroller より前に置く。
+    scroller_windows {
+        layers = <7>;
+        input-processors =
+            <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,       //Y軸反転
+            <&zip_xy_to_scroll_mapper>,                         //スクロールモードに変更
+            <&zip_scroll_transform INPUT_TRANSFORM_X_INVERT>,   //スクロールのX軸反転（Mac 用と逆）
+            // スクロールのY軸反転は付けない（Mac 用と逆）
+            <&zip_scroll_scaler 1 24>;                          //スクロール量を1/24倍（Mac 用と同じ）
+    };
+
     scroller {
         layers = <3>;
         input-processors = 
