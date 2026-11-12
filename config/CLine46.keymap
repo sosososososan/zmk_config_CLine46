@@ -136,6 +136,38 @@
             display-name = "Toggle Layer Off";
             toggle-mode = "off";
         };
+
+        // ジェスチャ（左親指4＋ボールを左右）で使う。Ctrl（Z の下。Mac では Command）を押していたら別のキーに変える。
+        // 押していた Ctrl はホストに送らない（mod-morph の標準動作）。
+        // Mac: F17/F18＝ウィンドウを左/右半分、F19/F20＝左/右のモニターへ（どちらも Hammerspoon が処理）
+        gest_mac_left: gest_mac_left {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp F17>, <&kp F19>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+
+        gest_mac_right: gest_mac_right {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp F18>, <&kp F20>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+
+        // Windows: Win+←/→＝ウィンドウを左/右半分、Win+Shift+←/→＝左/右のモニターへ（Windows 標準）
+        gest_win_left: gest_win_left {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LG(LEFT)>, <&kp LG(LS(LEFT))>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+
+        gest_win_right: gest_win_right {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LG(RIGHT)>, <&kp LG(LS(RIGHT))>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
     };
 
     // Windows モード中だけ有効になるレイヤー

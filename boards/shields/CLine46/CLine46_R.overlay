@@ -3,6 +3,9 @@
 #include <input/processors.dtsi>
 #include <input/processors/runtime-input-processor.dtsi>
 #include <behaviors/battery_history_request.dtsi>
+#include <mouse-gesture.dtsi>
+#include <dt-bindings/zmk/mouse-gesture.h>
+#include <dt-bindings/zmk/keys.h>
 
 &default_transform {
     col-offset = <6>;
@@ -71,6 +74,42 @@
     temp-layer-deactivation-delay-ms = <3000>;
 };
 
+// ジェスチャ（左親指4を押している間だけ。ボールの動きはカーソルに送らない）
+// 共通: 動きと一致した瞬間に実行（eager）。続けて反応しないよう 400ms 待つ。数値の出発点は moNa2（Arai-yt）の設定
+// Mac（レイヤー2）: 上＝Mission Control（Mac では CLine46 の Win キーが Control になるので LG）、左右＝ウィンドウ半分、Ctrl＋左右＝モニター移動
+&zip_mouse_gesture {
+    always-active;
+    enable-eager-mode;
+    suppress-movement;
+    stroke-size = <5>;
+    movement-threshold = <6>;
+    idle-timeout-ms = <100>;
+    gesture-cooldown-ms = <400>;
+
+    mission_control { pattern = <GESTURE_UP>;    bindings = <&kp LG(UP)>; };
+    window_left     { pattern = <GESTURE_LEFT>;  bindings = <&gest_mac_left>; };
+    window_right    { pattern = <GESTURE_RIGHT>; bindings = <&gest_mac_right>; };
+};
+
+/ {
+    // Windows（レイヤー8＝左親指4＋Windows モード）: 上＝タスクビュー、左右＝ウィンドウ半分、Ctrl＋左右＝モニター移動
+    zip_mouse_gesture_win: zip_mouse_gesture_win {
+        compatible = "zmk,input-processor-mouse-gesture";
+        #input-processor-cells = <0>;
+        always-active;
+        enable-eager-mode;
+        suppress-movement;
+        stroke-size = <5>;
+        movement-threshold = <6>;
+        idle-timeout-ms = <100>;
+        gesture-cooldown-ms = <400>;
+
+        task_view    { pattern = <GESTURE_UP>;    bindings = <&kp LG(TAB)>; };
+        window_left  { pattern = <GESTURE_LEFT>;  bindings = <&gest_win_left>; };
+        window_right { pattern = <GESTURE_RIGHT>; bindings = <&gest_win_right>; };
+    };
+};
+
 // Overrides for the input listener node
 &trackball_listener {
     status = "okay";
@@ -80,6 +119,22 @@
         <&zip_xy_transform INPUT_TRANSFORM_X_INVERT>;       //X軸反転
         //<&zip_temp_layer 2 1000>;                            //オートマウスレイヤーの選択;
 
+
+    // ジェスチャ。Windows 用（レイヤー8）を Mac 用（レイヤー2）より前に置く（レイヤー8 のときはレイヤー2 も有効なため）。
+    // ボールの左右は生の値だと逆なので、カーソルと同じく X 軸を反転してから判定する。
+    gesture_windows {
+        layers = <8>;
+        input-processors =
+            <&zip_xy_transform INPUT_TRANSFORM_X_INVERT>,
+            <&zip_mouse_gesture_win>;
+    };
+
+    gesture_mac {
+        layers = <2>;
+        input-processors =
+            <&zip_xy_transform INPUT_TRANSFORM_X_INVERT>,
+            <&zip_mouse_gesture>;
+    };
 
     // Windows モード中のスクロール（レイヤー7＝スクロールキー＋Windows モード）。
     // Mac 用（下の scroller）と比べて上下・左右とも逆。上にある設定が先に使われるので、必ず scroller より前に置く。
