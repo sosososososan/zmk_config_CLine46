@@ -59,16 +59,18 @@
         profile_windows: profile_windows {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            // BT 0（Windows）へ切り替え、Windows モード（レイヤー6）をオンにする
-            bindings = <&uc UC_SET_WIN_COMPOSE &tog_on WIN_MODE &bt BT_SEL 0>;
+            // BT 0（Windows）へ切り替え、Windows モード（レイヤー6）をオンにする。
+            // そのあと BT 1（Duo）との接続を切る（つないだままだと Duo のソフトウェアキーボードが出ないため）。
+            // 先に切り替えてから切断する（逆だと、切断直後に BT 1 がまだ選ばれていて Duo が再接続してしまう）
+            bindings = <&uc UC_SET_WIN_COMPOSE &tog_on WIN_MODE &bt BT_SEL 0 &bt BT_DISC 1>;
             label = "PROFILE_WINDOWS";
         };
 
         profile_macos: profile_macos {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            // BT 2（Mac）へ切り替え、Windows モードをオフにする
-            bindings = <&uc UC_SET_MACOS &tog_off WIN_MODE &bt BT_SEL 2>;
+            // BT 2（Mac）へ切り替え、Windows モードをオフにする。そのあと BT 1（Duo）との接続を切る（理由は profile_windows と同じ）
+            bindings = <&uc UC_SET_MACOS &tog_off WIN_MODE &bt BT_SEL 2 &bt BT_DISC 1>;
             label = "PROFILE_MACOS";
         };
 
