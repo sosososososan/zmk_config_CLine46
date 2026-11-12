@@ -10,6 +10,8 @@ manifest:
       url-base: https://github.com/takamaru-fpv
     - name: urob
       url-base: https://github.com/urob
+    - name: kot149  # <-- マウスジェスチャ
+      url-base: https://github.com/kot149
 
   projects:
     # ZMK: DYA Studio 用カスタム RPC サブシステム付き cormoran fork
@@ -43,5 +45,9 @@ manifest:
     - name: zmk-unicode
       remote: urob
       revision: v0.3
+    # トラックボールの動きの方向でショートカットを送る（左親指4を押している間）。v1 ブランチの 2026-10-19 時点に固定
+    - name: zmk-mouse-gesture
+      remote: kot149
+      revision: 66f905e43cb5d36ef397b26c69c36e7da71dc585
   self:
     path: config
