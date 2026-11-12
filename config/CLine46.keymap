@@ -228,11 +228,11 @@
         };
 
 
-        // レイヤー4: オートマウス（AML）。Y=貼り付け U=コピー P=戻る BkSp=進む Shift=Shift、I/O 等=クリック
+        // レイヤー4: オートマウス（AML）。Y=貼り付け U=戻る H=コピー J=進む Shift=Shift、I/O 等=クリック
         layer_4 {
             bindings = <
-&trans &trans &trans &trans &mkp MB1 &mkp MB2    &kp LC(V) &kp LC(C) &mkp MB1 &mkp MB2 &mkp MB4 &mkp MB5
-&trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &kp UP &trans
+&trans &trans &trans &trans &mkp MB1 &mkp MB2    &kp LC(V) &mkp MB4 &mkp MB1 &mkp MB2 &trans &trans
+&trans &trans &trans &trans &trans &trans    &kp LC(C) &mkp MB5 &trans &trans &kp UP &trans
 &kp LSHFT &trans &trans &trans &trans &trans    &trans &trans &trans &kp LEFT &kp DOWN &kp RIGHT
   &trans  &trans  &trans  &trans  &to_layer_0 LANG2  &trans    &trans  &to_layer_0 LANG1  &mkp MB1  &mkp MB2
             >;
