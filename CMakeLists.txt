@@ -1,0 +1,4 @@
+# CLine46 独自のプログラム（右手＝セントラルだけで使う。左手には入らない）
+if(CONFIG_CLINE46_WIN_MODE_FOLLOWS_PROFILE)
+  target_sources(app PRIVATE src/win_mode_follows_profile.c)
+endif()

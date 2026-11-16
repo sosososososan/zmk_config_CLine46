@@ -1,0 +1,21 @@
+# CLine46 独自の設定（この設定リポジトリ自体も ZMK のモジュールとして読み込まれる）
+
+config CLINE46_WIN_MODE_FOLLOWS_PROFILE
+    bool "Keep the Windows mode layer and Unicode mode in sync with the active BLE profile"
+    depends on ZMK_BLE && ZMK_BEHAVIOR_UNICODE
+    help
+      While the Windows profile is selected, the Windows mode layer stays on and the Unicode input
+      mode stays Windows; on other profiles both stay in the Mac setting. This survives reboots
+      (deep sleep) and &to, which turns off every layer except the default one.
+
+if CLINE46_WIN_MODE_FOLLOWS_PROFILE
+
+config CLINE46_WIN_PROFILE
+    int "BLE profile index of the Windows host"
+    default 0
+
+config CLINE46_WIN_MODE_LAYER
+    int "Layer id of the Windows mode layer (WIN_MODE in the keymap)"
+    default 6
+
+endif
