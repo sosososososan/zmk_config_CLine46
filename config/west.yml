@@ -2,6 +2,8 @@ manifest:
   remotes:
     - name: cormoran
       url-base: https://github.com/cormoran
+    - name: sosososososan  # <-- Duo 用に Bluetooth の身元を分けた ZMK（cormoran 版をもとに変更）
+      url-base: https://github.com/sosososososan
     - name: badjeff    # <-- PMW3610
       url-base: https://github.com/badjeff
     - name: caksoylar  # <-- RGB LED
@@ -16,8 +18,8 @@ manifest:
   projects:
     # ZMK: DYA Studio 用カスタム RPC サブシステム付き cormoran fork
     - name: zmk
-      remote: cormoran
-      revision: v0.3-branch+dya
+      remote: sosososososan
+      revision: v0.3-branch+dya+profile-id
       import: app/west.yml
     - name: zmk-feature-non-lipo-battery-management
       remote: takamaru-fpv
