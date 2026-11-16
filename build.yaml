@@ -18,10 +18,8 @@
 #
 ---
 include:
+ # デバッグ用（ブランチ duo-identity-debug のみ）: USB でログを出す。Duo のペアリング失敗の原因調査
  - board: seeeduino_xiao_ble
    shield: CLine46_R rgbled_adapter
-   snippet: studio-rpc-usb-uart
- - board: seeeduino_xiao_ble
-   shield: CLine46_L rgbled_adapter
- - board: seeeduino_xiao_ble
-   shield: settings_reset
+   cmake-args: -DSNIPPET="studio-rpc-usb-uart;zmk-usb-logging" -DCONFIG_BT_SMP_LOG_LEVEL_DBG=y -DCONFIG_BT_KEYS_LOG_LEVEL_DBG=y -DCONFIG_BT_CONN_LOG_LEVEL_INF=y -DCONFIG_LOG_BUFFER_SIZE=16384
+   artifact-name: CLine46_R_debug_logging
