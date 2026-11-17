@@ -168,6 +168,13 @@
             bindings = <&kp LG(RIGHT)>, <&kp LG(LS(RIGHT))>;
             mods = <(MOD_LCTL|MOD_RCTL)>;
         };
+
+        // スリープ防止モード（マウスを1ドットだけ小刻みに揺らす）のオン・オフ。中身は src/jiggle.c
+        jiggle: jiggle {
+            compatible = "zmk,behavior-cline46-jiggle";
+            #binding-cells = <0>;
+            display-name = "Jiggle Toggle";
+        };
     };
 
     // Windows モード中だけ有効になるレイヤー
@@ -210,7 +217,7 @@
 
         MOUSE {
             bindings = <
-&trans &kp F7 &kp F8 &kp F9 &kp F10 &trans    &profile_windows &trans &trans &trans  &trans  &kp DEL
+&trans &kp F7 &kp F8 &kp F9 &kp F10 &trans    &profile_windows &jiggle &trans &trans  &trans  &kp DEL
 &trans &kp F4 &kp F5 &kp F6 &kp F11 &trans    &profile_duo     &trans &trans &trans  &kp F13 &trans
 &trans &kp F1 &kp F2 &kp F3 &kp F12 &trans    &profile_macos   &trans &trans &kp F14 &kp F15 &kp F16
   &trans  &trans  &trans  &trans  &trans  &trans    &studio_unlock  &trans  &kp HOME  &kp END
