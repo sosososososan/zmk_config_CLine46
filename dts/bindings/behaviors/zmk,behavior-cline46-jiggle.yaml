@@ -1,0 +1,6 @@
+# スリープ防止モード（マウスを小刻みに揺らす）のオン・オフを切り替える。中身は src/jiggle.c
+description: CLine46 jiggle (keep hosts awake) toggle
+
+compatible: "zmk,behavior-cline46-jiggle"
+
+include: zero_param.yaml

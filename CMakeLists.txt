@@ -2,3 +2,6 @@
 if(CONFIG_CLINE46_WIN_MODE_FOLLOWS_PROFILE)
   target_sources(app PRIVATE src/win_mode_follows_profile.c)
 endif()
+if(CONFIG_CLINE46_JIGGLE)
+  target_sources(app PRIVATE src/jiggle.c)
+endif()

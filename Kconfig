@@ -19,3 +19,36 @@ config CLINE46_WIN_MODE_LAYER
     default 6
 
 endif
+
+config CLINE46_JIGGLE
+    bool "Keep-awake mode: jiggle the mouse cursor by one dot at random intervals"
+    depends on ZMK_POINTING
+    help
+      Adds the &jiggle behavior. While the mode is on, the cursor is moved by one dot in a random
+      direction and back every few seconds, unless a key was pressed recently or the auto mouse
+      layer is active. The keyboard does not enter deep sleep while the mode is on.
+
+if CLINE46_JIGGLE
+
+config CLINE46_JIGGLE_MIN_INTERVAL_MS
+    int "Shortest wait between two jiggles (ms)"
+    default 15000
+
+config CLINE46_JIGGLE_MAX_INTERVAL_MS
+    int "Longest wait between two jiggles (ms)"
+    default 30000
+
+config CLINE46_JIGGLE_TYPING_PAUSE_MS
+    int "Do not jiggle for this long after the last key press or release (ms)"
+    default 10000
+
+config CLINE46_JIGGLE_AML_LAYER
+    int "Layer id of the auto mouse layer (no jiggling while it is active)"
+    default 4
+
+config CLINE46_JIGGLE_LED
+    bool "Blink the RGB LED widget when the mode changes and on every jiggle"
+    default y
+    depends on RGBLED_WIDGET
+
+endif
