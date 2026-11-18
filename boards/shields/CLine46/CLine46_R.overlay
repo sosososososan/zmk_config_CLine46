@@ -74,9 +74,9 @@
     temp-layer-deactivation-delay-ms = <3000>;
 };
 
-// ジェスチャ（左親指4を押している間だけ。ボールの動きはカーソルに送らない）
+// ジェスチャ（BS＋P を同時に押している間だけ。ボールの動きはカーソルに送らない）
 // 共通: 動きと一致した瞬間に実行（eager）。続けて反応しないよう 400ms 待つ。数値の出発点は moNa2（Arai-yt）の設定
-// Mac（レイヤー2）: 上＝Mission Control（Mac では CLine46 の Win キーが Control になるので LG）、左右＝ウィンドウ半分、Ctrl＋左右＝モニター移動
+// Mac（レイヤー9）: 上＝Mission Control（Mac では CLine46 の Win キーが Control になるので LG）、左右＝ウィンドウ半分、Ctrl＋左右＝モニター移動
 &zip_mouse_gesture {
     always-active;
     enable-eager-mode;
@@ -92,7 +92,7 @@
 };
 
 / {
-    // Windows（レイヤー8＝左親指4＋Windows モード）: 上＝タスクビュー、左右＝ウィンドウ半分、Ctrl＋左右＝モニター移動
+    // Windows（レイヤー10＝BS＋P＋Windows モード）: 上＝タスクビュー、左右＝ウィンドウ半分、Ctrl＋左右＝モニター移動
     zip_mouse_gesture_win: zip_mouse_gesture_win {
         compatible = "zmk,input-processor-mouse-gesture";
         #input-processor-cells = <0>;
@@ -120,17 +120,17 @@
         //<&zip_temp_layer 2 1000>;                            //オートマウスレイヤーの選択;
 
 
-    // ジェスチャ。Windows 用（レイヤー8）を Mac 用（レイヤー2）より前に置く（レイヤー8 のときはレイヤー2 も有効なため）。
+    // ジェスチャ。Windows 用（レイヤー10）を Mac 用（レイヤー9）より前に置く（レイヤー10 のときはレイヤー9 も有効なため）。
     // ボールの左右は生の値だと逆なので、カーソルと同じく X 軸を反転してから判定する。
     gesture_windows {
-        layers = <8>;
+        layers = <10>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_X_INVERT>,
             <&zip_mouse_gesture_win>;
     };
 
     gesture_mac {
-        layers = <2>;
+        layers = <9>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_X_INVERT>,
             <&zip_mouse_gesture>;

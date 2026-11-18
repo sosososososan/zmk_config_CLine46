@@ -13,6 +13,8 @@
 #define WIN_MODE     6
 #define WIN_SCROLL   7
 #define WIN_ARROWS   8
+#define GESTURE      9
+#define WIN_GESTURE  10
 
 &mt {
     flavor = "balanced";
@@ -137,7 +139,7 @@
             toggle-mode = "off";
         };
 
-        // ジェスチャ（左親指4＋ボールを左右）で使う。Ctrl（Z の下。Mac では Command）を押していたら別のキーに変える。
+        // ジェスチャ（BS＋P を押したまま＋ボールを左右）で使う。Ctrl（Z の下。Mac では Command）を押していたら別のキーに変える。
         // 押していた Ctrl はホストに送らない（mod-morph の標準動作）。
         // Mac: F17/F18＝ウィンドウを左/右半分、F19/F20＝左/右のモニターへ（どちらも Hammerspoon が処理）
         gest_mac_left: gest_mac_left {
@@ -180,6 +182,7 @@
     // Windows モード中だけ有効になるレイヤー
     //   スクロールキー（レイヤー3）を押している ＋ Windows モード → レイヤー7（スクロール上下左右反転。overlay 側で設定）
     //   レイヤー2 を押している ＋ Windows モード → レイヤー8（矢印位置を Alt＋テンキー入力に置き換え）
+    //   BS＋P（レイヤー9）を押している ＋ Windows モード → レイヤー10（Windows 用ジェスチャ。overlay 側で設定）
     conditional_layers {
         compatible = "zmk,conditional-layers";
         win_scroll {
@@ -189,6 +192,23 @@
         win_arrows {
             if-layers = <FN_LAYER WIN_MODE>;
             then-layer = <WIN_ARROWS>;
+        };
+        win_gesture {
+            if-layers = <GESTURE WIN_MODE>;
+            then-layer = <WIN_GESTURE>;
+        };
+    };
+
+    // BS と P を同時に押している間だけジェスチャ用レイヤー（ボールの動きでジェスチャ。中身は overlay）。
+    // 2キーを 50ms 以内に押したときだけ。速く打っている最中（直前のキーから 150ms 以内）はコンボにしない。
+    // 注意: コンボは ZMK Studio から読み出せないので、keymap_sync.py の照合対象外。
+    combos {
+        compatible = "zmk,combos";
+        gesture {
+            timeout-ms = <50>;
+            require-prior-idle-ms = <150>;
+            key-positions = <10 11>;
+            bindings = <&mo GESTURE>;
         };
     };
 
@@ -283,6 +303,26 @@
 &trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans &trans
 &trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &win_arrow_up &trans
 &trans &trans &trans &trans &trans &trans    &trans &trans &trans &win_arrow_left &win_arrow_down &win_arrow_right
+  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans
+            >;
+        };
+
+        // レイヤー9: BS＋P を押している間（Mac 用ジェスチャ。overlay の gesture_mac）。中身はすべて &trans
+        GESTURE {
+            bindings = <
+&trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans &trans
+  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans
+            >;
+        };
+
+        // レイヤー10: BS＋P を押している＋Windows モード（Windows 用ジェスチャ。overlay の gesture_windows）
+        WIN_GESTURE {
+            bindings = <
+&trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans &trans
   &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans
             >;
         };
