@@ -79,7 +79,7 @@
         profile_duo: profile_duo {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            // BT 1（Duo / Android）へ切り替え、Windows モードをオフにする（Mac と同じ動き）
+            // BT 1（Duo / iOS）へ切り替え、Windows モードをオフにする（Mac と同じ動き）
             bindings = <&tog_off WIN_MODE &bt BT_SEL 1>;
             label = "PROFILE_DUO";
         };
