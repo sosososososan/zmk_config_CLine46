@@ -52,3 +52,18 @@ config CLINE46_JIGGLE_LED
     depends on RGBLED_WIDGET
 
 endif
+
+config CLINE46_SCREENSHOT
+    bool "Screenshot key that sends the right shortcut for the current host"
+    depends on CLINE46_WIN_MODE_FOLLOWS_PROFILE
+    help
+      Adds the &screenshot behavior. On the Duo profile it sends Command+Shift+3; in Windows mode
+      Win+Shift+S; otherwise (Mac) Command+Control+Shift+4 (select an area, copy to clipboard).
+
+if CLINE46_SCREENSHOT
+
+config CLINE46_SCREENSHOT_DUO_PROFILE
+    int "BLE profile index of the Duo (iPhone)"
+    default 1
+
+endif

@@ -1,0 +1,6 @@
+# 接続先に合わせてスクリーンショットのショートカットを送る。中身は src/screenshot.c
+description: CLine46 screenshot (shortcut depends on the current host)
+
+compatible: "zmk,behavior-cline46-screenshot"
+
+include: zero_param.yaml
