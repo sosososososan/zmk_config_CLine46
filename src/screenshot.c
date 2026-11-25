@@ -3,6 +3,7 @@
  * キーマップの &screenshot（かなキーの長押し &ss_kana）から呼ばれる。
  *
  * - Duo（BT 1）              : Command + Shift + 3（画面全体）
+ *   Duo も CLine の Control と Command を入れ替えているので、キーボードからは Control + Shift + 3 を送る。
  * - Windows（Windows モード）: Win + Shift + S（範囲を選んでクリップボードへ）
  * - Mac（それ以外）          : Command + Control + Shift + 4（範囲を選んでクリップボードへ）
  *   Mac は CLine の Control と Command を入れ替えているが、両方を同時に送るので影響しない。
@@ -40,7 +41,8 @@ struct shortcut {
     uint32_t keys[4]; // 修飾キー…, 本体のキー（0 で終わり）
 };
 
-static const struct shortcut DUO = {{LGUI, LSHFT, N3, 0}};
+// Duo は iPhone 側で Control↔Command を入れ替えているので、LCTRL が Command として届く
+static const struct shortcut DUO = {{LCTRL, LSHFT, N3, 0}};
 static const struct shortcut WINDOWS = {{LGUI, LSHFT, S, 0}};
 static const struct shortcut MAC = {{LGUI, LCTRL, LSHFT, N4}};
 
