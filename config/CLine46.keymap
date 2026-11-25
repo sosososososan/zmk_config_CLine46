@@ -177,6 +177,27 @@
             #binding-cells = <0>;
             display-name = "Jiggle Toggle";
         };
+
+        // スクリーンショット。接続先に合わせて送るキーを変える（Mac・Windows は範囲を選んでクリップボードへ、
+        // Duo は画面全体）。中身は src/screenshot.c
+        screenshot: screenshot {
+            compatible = "zmk,behavior-cline46-screenshot";
+            #binding-cells = <0>;
+            display-name = "Screenshot";
+        };
+
+        // かなキー: 短く押すと「かな」、0.3秒押し続けるとスクリーンショット。
+        // 速く打っている途中に撮らないよう、時間が来るまで長押しとみなさない（tap-preferred）
+        ss_kana: ss_kana {
+            compatible = "zmk,behavior-hold-tap";
+            label = "SS_KANA";
+            bindings = <&screenshot>, <&kp>;
+
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <300>;
+            quick-tap-ms = <0>;
+        };
     };
 
     // Windows モード中だけ有効になるレイヤー
@@ -220,7 +241,7 @@
 &mt LCTRL TAB     &kp Q &kp W &kp E &kp R &kp T    &kp Y &kp U &kp I    &kp O    &mt MINUS P &kp BSPC
 &mt LS(N2) LS(N7) &kp A &kp S &kp D &kp F &kp G    &kp H &kp J &kp K    &kp L    &kp UP      &lt 3 RET
 &mt LSHFT LSHFT   &kp Z &kp X &kp C &kp V &kp B    &kp N &kp M &kp FSLH &kp LEFT &kp DOWN    &kp RIGHT
-  &mt LCTRL LCTRL  &kp LGUI  &kp LALT  &lt 2 C_MUTE  &lt 1 LANG2  &lt 4 SPACE    &lt 5 SPACE  &mt LSHFT LANG1  &kp COMMA  &kp DOT
+  &mt LCTRL LCTRL  &kp LGUI  &kp LALT  &lt 2 C_MUTE  &lt 1 LANG2  &lt 4 SPACE    &lt 5 SPACE  &ss_kana 0 LANG1  &kp COMMA  &kp DOT
             >;
         };
 
